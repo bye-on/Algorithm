@@ -1,32 +1,20 @@
 #include<vector>
-#include<stack>
 #include<iostream>
 using namespace std;
-int v[100][2];
+vector<int> v[100];
 bool visited[100];
 
-bool dfs()
+void dfs(int x)
 {
-    stack<int> s;
-    s.push(0);
-    
-    while(!s.empty())
+    visited[x] = true;
+ 	
+    for(int i = 0; i < v[x].size(); i++)
     {
-        int current = s.top();
-        if(current == 99)
-            return true;
-        visited[current] = true;
-        s.pop();
+        int next = v[x][i];
         
-        int next = v[current][0];
-        if(next != 0 && !visited[next])
-            s.push(next);
-        
-        next = v[current][1];
-        if(next != 0 && !visited[next])
-            s.push(next);
+        if(!visited[next])
+            dfs(next);
     }
-    return false;
 }
 
 int main(int argc, char** argv)
@@ -42,24 +30,19 @@ int main(int argc, char** argv)
         for(int i = 0; i < 100; i++)
         {
             visited[i] = false;
-            for(int j = 0; j < 2; j++)
-            {
-                v[i][j] = 0;
-            }
+            v[i].clear();
         }
-        
         
 		for(int i = 0; i < num; i++)
         {
             int a, b;
             cin >> a >> b;
-         	if(v[a][0] == 0)
-                v[a][0] = b;
-            else 
-                v[a][1] = b;
+         	v[a].push_back(b);
         }
+        
+        dfs(0);
 
-        if(dfs()) 
+        if(visited[99]) 
             cout << "#" << T << " " << "1" << '\n';
         else 
             cout << "#" << T << " " << "0" << '\n';
