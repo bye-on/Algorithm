@@ -1,55 +1,80 @@
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 using namespace std;
 
-int d[1001][1001];
+int d[1001];
 int INF = 1e9;
+vector<pair<int, int>> start[1001];
+vector<pair<int, int>> finish[1001];
+
+void dijkstra(vector<pair<int, int>> v[1001], int target)
+{
+	priority_queue<pair<int, int>> pq;
+	d[target] = 0;
+	pq.push({ target,0 });
+
+	while (!pq.empty())
+	{
+		int node = pq.top().first;
+		int distance = -pq.top().second;
+		pq.pop();
+
+		if (d[node] < distance) continue;
+
+		for (int i = 0; i < v[node].size(); i++)
+		{
+			int next = v[node][i].first;
+			int nextDistance = distance + v[node][i].second;
+
+			if (d[next] > nextDistance)
+			{
+				d[next] = nextDistance;
+				pq.push({ next, -nextDistance });
+			}
+				
+		}
+	}
+}
 
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL), cout.tie(NULL);
-
 	int n, m, x;
 	cin >> n >> m >> x;
-
-	for (int i = 1; i <= n; i++)
-	{
-		for (int j = 1; j <= n; j++)
-		{
-			if (i == j) d[i][j] = 0;
-			else d[i][j] = INF;
-		}
-	}
 
 	for (int i = 0; i < m; i++)
 	{
 		int a, b, t;
 		cin >> a >> b >> t;
-		d[a][b] = t;
+
+		start[a].push_back({ b, t });
+		finish[b].push_back({ a,t });
 	}
 
-	
-	for (int k = 1; k <= n; k++)
-	{
-		for (int i = 1; i <= n; i++)
-		{
-			if (d[i][k] == INF)
-				continue;
-
-			for (int j = 1; j <= n; j++)
-			{
-				d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
-			}
-		}
-	}
-
-	int time = 0;
 	for (int i = 1; i <= n; i++)
 	{
-		time = max(time, d[i][x] + d[x][i]);
+		d[i] = INF;
+	}
+	dijkstra(start, x);
+
+	vector<int> v;
+	for (int i = 1; i <= n; i++)
+	{
+		v.push_back(d[i]);
 	}
 
-	cout << time;
+	for (int i = 1; i <= n; i++)
+	{
+		d[i] = INF;
+	}
+
+	dijkstra(finish, x);
+
+	int maxNum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		maxNum = max(maxNum, (v[i] + d[i + 1]));
+	}
+
+	cout << maxNum;
 }
