@@ -3,7 +3,7 @@
 using namespace std;
 
 int n, k;
-int path[200001];
+int path[100001];
 int INF = 1e9;
 
 int main()
@@ -11,7 +11,7 @@ int main()
 	cin >> n >> k;
 	deque<int> d;
 
-	for (int i = 0; i < 200001; i++)
+	for (int i = 0; i < 100001; i++)
 	{
 		path[i] = INF;
 	}
