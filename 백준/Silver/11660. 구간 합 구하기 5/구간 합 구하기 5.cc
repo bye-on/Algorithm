@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-int map[1026][1026];
+int map[1025][1025];
 int main()
 {
 	ios::sync_with_stdio(false);
