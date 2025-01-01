@@ -3,6 +3,21 @@
 #include <algorithm>
 using namespace std;
 
+int binary_search(vector<int>& lis, int start, int end, int target)
+{
+	while (start < end)
+	{
+		int middle = (start + end) / 2;
+
+		if (lis[middle] < target)
+			start = middle + 1;
+		else if (lis[middle] > target)
+			end = middle;
+		else return middle;
+	}
+	return end;
+}
+
 int main()
 {
 	ios::sync_with_stdio(false);
@@ -21,21 +36,23 @@ int main()
 
 	vector<int> lis;
 	vector<int> path;
+	lis.push_back(v[0]);
+	path.push_back(0);
 
-	for (int i = 0; i < n; i++)
+	for (int i = 1; i < n; i++)
 	{
-		int num = v[i];
-		int index = lower_bound(lis.begin(), lis.end(), num) - lis.begin();
-		if (index == lis.size())
+		if (v[i] > lis.back())
 		{
-			lis.push_back(num);
+			lis.push_back(v[i]);
 			path.push_back(lis.size() - 1);
 		}
 		else
 		{
-			lis[index] = num;
-			path.push_back(index);
+			int pos = binary_search(lis, 0, lis.size() - 1, v[i]);
+			path.push_back(pos);
+			lis[pos] = v[i];
 		}
+
 	}
 
 	vector<int> result;
