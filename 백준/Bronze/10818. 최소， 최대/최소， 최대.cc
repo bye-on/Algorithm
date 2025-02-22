@@ -5,17 +5,23 @@ using namespace std;
 
 int main()
 {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL), cout.tie(NULL);
+
 	int n;
 	cin >> n;
 	
-	vector<int> v;
+	int min = 1e9; int max = -1e9;
 	for (int i = 0; i < n; i++)
 	{
 		int input;
 		cin >> input;
-		v.push_back(input);
+		
+		if (min > input)
+			min = input;
+		if (max < input)
+			max = input;
 	}
-
-	sort(v.begin(), v.end());
-	cout << v[0] << " " << v[v.size() - 1];
+	
+	cout << min << " " << max;
 }
