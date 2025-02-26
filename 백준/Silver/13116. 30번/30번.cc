@@ -5,6 +5,9 @@ using namespace std;
 
 int main()
 {
+	ios::sync_with_stdio(0);
+	cin.tie(0); cout.tie(0);
+
 	int t;
 	cin >> t;
 
@@ -17,11 +20,11 @@ int main()
 		{
 			if (a > b)
 			{
-				a /= 2;
+				a >>= 1;
 			}
 			else if (a < b)
 			{
-				b /= 2;
+				b >>= 1;
 			}
 			else
 			{
