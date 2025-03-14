@@ -9,28 +9,24 @@ int main()
 
 	stack<char> s;
 	int cnt = 0;
-	char bef;
 	for (int i = 0; i < str.length(); i++)
 	{
 		char c = str[i];
 		if (c == '(' || s.empty())
 		{
 			s.push(c);
-			bef = c;
 		}
 		else if (c == ')')
 		{
-			if (bef == '(')
+			if (str[i-1] == '(')
 			{
 				s.pop();
 				cnt += s.size();
-				bef = c;
 			}
-			else if (bef == ')')
+			else if (str[i-1] == ')')
 			{
 				s.pop();
 				cnt++;
-				bef = c;
 			}
 		}
 	}
