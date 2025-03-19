@@ -1,7 +1,5 @@
 #include <iostream>
-#include <vector>
 #include <sstream>
-#include <algorithm>
 using namespace std;
 
 int main()
@@ -15,20 +13,13 @@ int main()
 		string str;
 		getline(cin, str);
 
-		vector<string> words;
-		int index = 0;
-		while ((index = str.find(" ")) != string::npos)
+		stringstream ss(str);
+		string word;
+		while (getline(ss, word, ' '))
 		{
-			words.push_back(str.substr(0, index));
-			str.erase(0, index + 1);
-		}
-		words.push_back(str);
-
-		for (int i = 0; i < words.size(); i++)
-		{
-			for (int j = 0; j < words[i].size(); j++)
+			for (int j = 0; j < word.size(); j++)
 			{
-				cout << words[i][words[i].size() - 1 - j];
+				cout << word[word.size() - 1 - j];
 			}
 			cout << " ";
 		}
