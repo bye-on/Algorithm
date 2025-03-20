@@ -11,18 +11,12 @@ int solution(vector<int> topping) {
     
     for(int i = 0; i < topping.size(); i++)
     {
-        if(left.find(topping[i]) == left.end())
-            left.insert({topping[i], 1});
-        else
-            left[topping[i]]++;
+        left[topping[i]]++;
     }
     
     for(int i = topping.size() - 1; i >= 0; i--)
     {
-        if(right.find(topping[i]) == right.end())
-            right.insert({topping[i], 1});
-        else
-            right[topping[i]]++;
+        right[topping[i]]++;
         
         left[topping[i]]--;
         if(left[topping[i]] == 0)
