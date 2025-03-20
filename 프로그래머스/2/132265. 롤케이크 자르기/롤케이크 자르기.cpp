@@ -26,7 +26,7 @@ int solution(vector<int> topping) {
         
         left[topping[i]]--;
         if(left[topping[i]] == 0)
-            left.erase(left.find(topping[i]));
+            left.erase(topping[i]);
         
         if(left.size() == right.size())
             answer++;
