@@ -46,9 +46,6 @@ void dfs(vector<int> &alpha, vector<char> &ret, int depth)
 
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(NULL); cout.tie(NULL);
-
 	cin >> str;
 
 	vector<int> alpha(26);
