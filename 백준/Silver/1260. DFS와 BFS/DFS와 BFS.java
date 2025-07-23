@@ -7,9 +7,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Main {
+    static StringBuilder sb = new StringBuilder();
+
     static void dfs(ArrayList<Integer>[] graph, boolean[] visited, int v) {
         visited[v] = true;
-        System.out.print(v + " ");
+        sb.append(v).append(" ");
 
         for (int i = 0; i < graph[v].size(); i++) {
             int next = graph[v].get(i);
@@ -25,7 +27,7 @@ public class Main {
         while (!q.isEmpty()) {
             int current = q.poll();
             visited[current] = true;
-            System.out.print(current + " ");
+            sb.append(current).append(" ");
 
             for (int i = 0; i < graph[current].size(); i++) {
                 int next = graph[current].get(i);
@@ -66,8 +68,9 @@ public class Main {
 
         boolean[] DFSvisited = new boolean[n + 1];
         dfs(graph, DFSvisited, v);
-        System.out.println();
+        sb.append("\n");
         boolean[] BFSvisited = new boolean[n + 1];
         bfs(graph, BFSvisited, v);
+        System.out.println(sb.toString());
     }
 }
