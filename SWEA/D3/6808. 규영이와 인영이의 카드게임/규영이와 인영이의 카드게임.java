@@ -6,7 +6,6 @@ class Solution {
     static int[] A;
     static int[] B;
     static boolean[] visited;
-    static int[] arr;
     static long resultA;
     static long resultB;
 
@@ -20,7 +19,6 @@ class Solution {
             A = new int[9]; // 규영
             B = new int[9]; // 인영
 
-            arr = new int[9]; // 9!의 결과들
             visited = new boolean[19];
             resultA = 0;
             resultB = 0;
@@ -39,27 +37,14 @@ class Solution {
                     B[index++] = i;
             }
 
-            dfs(0);
+            dfs(0, 0, 0);
             sb.append("#").append(test_case).append(" ").append(resultA).append(" ").append(resultB).append("\n");
         }
         System.out.println(sb.toString());
     }
 
-    static void dfs(int depth) {
+    static void dfs(int depth, int a, int b) {
         if (depth == 9) {
-            int a = 0;
-            int b = 0;
-
-            for (int i = 0; i < A.length; i++) {
-                if (A[i] < arr[i]) {
-                    b += A[i];
-                    b += arr[i];
-                } else if (A[i] > arr[i]) {
-                    a += A[i];
-                    a += arr[i];
-                }
-            }
-
             if (a > b)
                 resultA++;
             else if (a < b)
@@ -67,14 +52,22 @@ class Solution {
 
             return;
         }
-
+        
         for (int i = 0; i < 9; i++) {
             int num = B[i];
             
             if (!visited[num]) {
                 visited[num] = true;
-                arr[depth] = num;
-                dfs(depth + 1);
+
+                int aScore = A[depth];
+                int bScore = num;
+
+                if(aScore < bScore) {
+                    dfs(depth + 1, a, b + aScore + bScore);
+                } else if(A[depth] > num) {
+                    dfs(depth + 1, a + aScore + bScore, b);
+                }
+
                 visited[num] = false;
             }
         }
