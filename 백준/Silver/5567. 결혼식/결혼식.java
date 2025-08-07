@@ -10,6 +10,7 @@ public class Main {
 
     static ArrayList<Integer>[] graph;
     static boolean[] visited;
+    static boolean[] check;
     static int result;
 
     public static void main(String[] args) throws IOException {
@@ -38,31 +39,29 @@ public class Main {
 
         result = 0;
         visited = new boolean[n + 1];
-        bfs(1);
-        System.out.println(result);
+        check = new boolean[n + 1];
+        dfs(1, 0);
+        if (result == 0)
+            System.out.println(result);
+        else
+            System.out.println(result - 1);
     }
 
-    static void bfs(int start) {
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[] { start, 0 });
+    static void dfs(int start, int depth) {
+        if (depth == 2)
+            return;
 
-        while (!q.isEmpty()) {
-            int[] current = q.poll();
-            int node = current[0];
-            int depth = current[1];
+        if (!visited[start]) {
+            visited[start] = true;
 
-            visited[node] = true;
+            for (int i = 0; i < graph[start].size(); i++) {
+                int next = graph[start].get(i);
+                // visited[next] = true;
+                dfs(next, depth + 1);
 
-            if (depth == 2)
-                break;
-
-            for (int i = 0; i < graph[node].size(); i++) {
-                int next = graph[node].get(i);
-
-                if (!visited[next]) {
-                    q.add(new int[] { next, depth + 1 });
-                    visited[next] = true;
+                if (!check[next]) {
                     result++;
+                    check[next] = true;
                 }
             }
         }
