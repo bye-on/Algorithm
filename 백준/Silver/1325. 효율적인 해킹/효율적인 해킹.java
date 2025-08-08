@@ -45,7 +45,7 @@ public class Main {
 
             while (!q.isEmpty()) {
                 int current = q.poll();
-                visited[current] = true;
+                // visited[current] = true;
                 d[current]++;
                 if (max < d[current])
                     max = d[current];
