@@ -57,8 +57,7 @@ public class Solution {
         } else if(index == 2) {
             ret *= arr[start];
         } else if(index == 3) {
-            long tmp = Math.round(ret / arr[start]);
-            ret = tmp;
+            ret /= arr[start];
         }
 
         if (start == (N - 1)) {
