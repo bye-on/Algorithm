@@ -24,9 +24,9 @@ public class Main {
         result = 0;
 
         for (int i = 0; i < R; i++) {
-            String[] str = br.readLine().split("");
+            String str = br.readLine();
             for (int j = 0; j < C; j++) {
-                if (str[j].equals("x"))
+                if (str.charAt(j) == 'x')
                     visited[i][j] = true;
             }
         }
