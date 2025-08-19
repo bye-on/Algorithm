@@ -18,6 +18,7 @@ public class Solution {
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int t = Integer.parseInt(br.readLine());
 
         for (int test_case = 1; test_case <= t; test_case++) {
@@ -60,14 +61,15 @@ public class Solution {
                 calc(c);
             }
 
-            System.out.print("#" + test_case + " ");
+            sb.append("#").append(test_case).append(" ");
             for (int i = 0; i < H; i++) {
                 for (int j = 0; j < W; j++) {
-                    System.out.print(map[i][j]);
+                    sb.append(map[i][j]);
                 }
-                System.out.println();
+                sb.append("\n");
             }
         }
+        System.out.println(sb);
     }
 
     static void calc(char c) {
