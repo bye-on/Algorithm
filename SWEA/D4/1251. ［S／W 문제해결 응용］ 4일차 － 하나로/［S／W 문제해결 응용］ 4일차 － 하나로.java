@@ -1,104 +1,94 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Solution {
-	
-	static class Pair<K, V> {
-		public final K first;
-		public final V second;
-		
-		public Pair(K first, V second) {
-			this.first = first;
-			this.second = second;
-		}
-	}
-	
-	static class pos implements Comparable<pos> {
-		double d;
+	static class Edge implements Comparable<Edge>{
 		int node;
+		long weight;
 		
-		public pos(double d, int node) {
-			this.d = d;
+		public Edge(int node, long weight) {
 			this.node = node;
+			this.weight = weight;
 		}
-		
+
 		@Override
-		public int compareTo(pos o) {
-		    return Double.compare(this.d, o.d); // d 오름차순
+		public int compareTo(Edge other) {
+			return Long.compare(this.weight, other.weight);
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
+	
+	static boolean[] isVisited = new boolean[1001];
+	static List<Edge>[] graph = new ArrayList[1001];
+	static int[][] islands = new int[1001][2];
+	static PriorityQueue<Edge> pq = new PriorityQueue<>();
+	static {
+		for(int i = 1; i <= 1000; i++) {
+			graph[i] = new ArrayList<>();
+		}
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		
 		int T = Integer.parseInt(br.readLine());
-		
-		for (int test_case = 1; test_case <= T; test_case++) {
-			int n = Integer.parseInt(br.readLine());
+		for(int testCase = 1; testCase <= T; testCase++) {
+			int N = Integer.parseInt(br.readLine());
 			
-			ArrayList<Pair<Long, Long>> arr = new ArrayList<>();
-			String[] xStr = br.readLine().split(" ");
-			String[] yStr = br.readLine().split(" ");
-			double E = Double.parseDouble(br.readLine());  
-		
-			for (int i = 0; i < n; i++) {
-				long x = Long.parseLong(xStr[i]);
-				long y = Long.parseLong(yStr[i]);
-				
-				arr.add(new Pair<>(x, y));
+			// 전역 변수 초기화
+			for(int i = 1; i <= N; i++) {
+				isVisited[i] = false;
+				graph[i].clear();
 			}
+			pq.clear();
 			
-			boolean[] visited = new boolean[n + 1];
-			ArrayList<pos>[] graph = new ArrayList[n + 1];
-			for (int i = 0; i <= n; i++) {
-				graph[i] = new ArrayList<>();
+			// 입력값 처리
+			st = new StringTokenizer(br.readLine());
+			for(int i = 1; i <= N; i++) {
+				islands[i][0] = Integer.parseInt(st.nextToken());
 			}
+			st = new StringTokenizer(br.readLine());
+			for(int i = 1; i <= N; i++) {
+				islands[i][1] = Integer.parseInt(st.nextToken());
+			}
+			double E = Double.parseDouble(br.readLine());
 			
-			for (int i = 0; i < arr.size() - 1; i++) {
-				for (int j = i + 1; j < arr.size(); j++) {
-					Pair<Long, Long> p1 = arr.get(i);
-					Pair<Long, Long> p2 = arr.get(j);
+			for(int i = 1; i <= N; i++) {
+				for(int j = i + 1; j <= N; j++) {
+                    long x = islands[i][0] - islands[j][0];
+                    long y = islands[i][1] - islands[j][1];
+					long dist = x * x + y * y;
 					
-					Long x1 = p1.first;
-					Long y1 = p1.second;
-					Long x2 = p2.first;
-					Long y2 = p2.second;
-					
-					double d = (Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)) * E;
-					graph[i].add(new pos(d, j));
-					graph[j].add(new pos(d, i));
+					graph[i].add(new Edge(j, dist));
+					graph[j].add(new Edge(i, dist));
 				}
 			}
 			
-			PriorityQueue<pos> pq = new PriorityQueue<>();
-			pq.add(new pos(0, 0));
+			//1 번 노드를 시작지점으로 설정
+			pq.add(new Edge(1, 0));
 			
-			double result = 0;
+			long result = 0;
 			while(!pq.isEmpty()) {
-				pos current = pq.poll();
+				Edge now = pq.poll();
+				if(isVisited[now.node]) continue;
 				
-				double d = current.d;
-				int node = current.node;
-				
-				if(visited[node]) continue;
-				
-				visited[node] = true;
-				result += d;
-				
-				for (int i = 0; i < graph[node].size(); i++) {
-					pos p = graph[node].get(i);
-					
-					if(!visited[p.node]) {
-						pq.add(new pos(p.d, p.node));
-					}
+				result += now.weight;
+				isVisited[now.node] = true;
+				for(int i = 0; i < graph[now.node].size(); i++) {
+					Edge next = graph[now.node].get(i);
+					if(!isVisited[next.node])pq.add(next);
 				}
 			}
 			
-			sb.append("#").append(test_case).append(" ").append(Math.round(result)).append("\n");
+			sb.append("#").append(testCase).append(" ").append(Math.round(result * E)).append("\n");
 		}
-		System.out.println(sb);
+		System.out.print(sb);
 	}
 }
