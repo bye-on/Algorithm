@@ -14,17 +14,12 @@ public class Solution {
 			int N = Integer.parseInt(NM[0]);
 			int M = Integer.parseInt(NM[1]);
 			
-			boolean flag = false;
-			for (int i = 0; i < N; i++) {
-				if((M & (1 << i)) == 0)
-					flag = true;
-			}
-			
 			sb.append("#").append(test_case).append(" ");
-			if(flag)
-				sb.append("OFF\n");
-			else
+			int bit = (1 << N) - 1;
+			if((M & bit) == bit)
 				sb.append("ON\n");
+			else
+				sb.append("OFF\n");
 		}
 		System.out.println(sb);
 	}
